@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Purchase order listing</title>
+</head>
+<body>
+    <div id="usermsgs">
+        <p>
+            <h2>{{usermsgs}}</h2>
+        </p>
+    </div>
+    <div id="tablelisting">
+        <table id="potable">
+            <thead>
+                <tr>
+                    <td>PurchaseOrder</td>
+                    <td>Date</td>
+                    <td>Item</td>
+                    <td>Quantities</td>
+                    <td>Description</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in porecords %}
+                    <tr>
+                        <td>{{record.PO}}</td>
+                        <td>{{record.DATE}}</td>
+                        <td>{{record.ITEM}}</td>
+                        <td>{{record.QTY}}</td>
+                        <td>{{record.DESC}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

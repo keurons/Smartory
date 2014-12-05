@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" type="text/css" href="{{stylesheetloc}}">
+        <!-- <style media="screen" type="text/css">
+            body {
+
+                color: #555;
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 13px;
+            }
+
+            h1 {
+
+                text-align: center;
+                color: maroon;
+            }
+
+            #usermsgs {
+
+                color: blue;
+            }
+
+        </style> -->
+        <title> Purchase order entry form </title>
+    <head>
+    <body>
+        <div id="usermsgs">
+            <p>
+                {{usrmsgs}}
+            </p>
+        </div>
+        <div id="purchaseorder">
+            <h2>Form to collect Purchase Order details</h2>
+            <form action="poentry" method="POST" id="podetails">
+                <fieldset>
+                    <label>Enter PO number here: </label><input type="text" name="PONumber" maxlength="10" />
+                    <br />
+                    <label>Enter date:  </label><input type="date" name="PODate" />
+                    <br />
+                    <textarea name="Description" cols="100" rows="4"> Please enter a concise description </textarea>
+                    <br />
+                    <p>
+                        Please select the type of item
+                        <br />
+                        <input type="radio" name="ItemType" value="macbook" checked="true" /> MacBook
+                        <br />
+                        <input type="radio" name="ItemType" value="adapters2pin" /> Adapters 3 pin
+                        <br />
+                        <input type="radio" name="ItemType" value="adapters3pin" /> Adapters 2 pin
+                        <br />
+                    </p>
+                    <label>Enter quantity: </label><input type="text" name="Qty" maxlength="3" />
+                    <p>
+                        <input type="submit" name="submit" value="Submit" />
+                    </p>
+                </fieldset>
+            </form>
+        </div>
+    </body>
+</html>
