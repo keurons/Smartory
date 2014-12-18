@@ -3,9 +3,6 @@
             [inventory.views.layout :as layout]
             [selmer.parser :refer [render-file]]))
 
-;(defn home []
-;  (layout/common [:h1 "Welcome to CDK Inventory System!"]))
-
 (defn home []
   (render-file "inventory/views/templates/welcome.html"
                {}))

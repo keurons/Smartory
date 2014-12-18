@@ -2,7 +2,7 @@
   (:require [compojure.core :refer [defroutes routes]]
             [ring.middleware.resource :refer [wrap-resource]]
             [ring.middleware.file-info :refer [wrap-file-info]]
-            [hiccup.middleware :refer [wrap-base-url]]
+            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [compojure.handler :as handler]
             [compojure.route :as route]
             [inventory.routes.home :refer [home-routes]]
@@ -24,5 +24,7 @@
 
 (def app
   (-> (routes home-routes poentry-routes podisplay-routes app-routes)
-      (handler/site)
-      (wrap-base-url)))
+      (handler/site)))
+
+;(def app
+;  (wrap-defaults (routes home-routes poentry-routes podisplay-routes app-routes) site-defaults))
