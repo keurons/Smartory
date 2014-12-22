@@ -8,7 +8,7 @@
 (defn po-display []
   (if (> (po-count) 0)
     (render-file "inventory/views/templates/podisplay.html"
-               {:porecords (get-all-pos)})
+               {:usermsgs "Working with new db"})
     (render-file "inventory/views/templates/podisplay.html"
                {:usermsgs "No purchase order records present in the database."})))
 
