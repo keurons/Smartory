@@ -1,3 +1,4 @@
 (ns inventory.models.db
-  (:require [clojure.string :as str]))
+  (:require  [taoensso.carmine :as car :refer (wcar)]
+             [clojure.string :as str]))
 
