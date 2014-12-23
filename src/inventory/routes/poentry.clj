@@ -16,7 +16,21 @@
 ;                 {:usrmsgs msgs}))
 
 (defn save-message [po date desc itemtype qty]
- (po-entry "no database yet"))
+ (cond
+   (empty? (str/trim po))
+     (po-entry "Please enter the PO number")
+   (empty? date)
+     (po-entry "Date is an important field. Please enter the purchase order date.")
+   (empty? desc)
+     (po-entry "Please enter information about this purcahse order in the description field.")
+   (empty? (str/trim qty))
+     (po-entry "Please enter the quantity")
+  :else
+   (do
+      (save-to-db
+         {"po" po}
+         {"date" date "desc" desc "itemtype" itemtype "qty" qty})
+      (po-entry "Purchase order has been archived sucessfully!"))))
 
 (defroutes poentry-routes
   (GET "/poentry" [_] (po-entry))
