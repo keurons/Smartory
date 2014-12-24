@@ -27,7 +27,7 @@
      (po-entry "Please enter the quantity")
   :else
    (do
-      (save-to-db
+      (save-po
          {"po" po}
          {"date" date "desc" desc "itemtype" itemtype "qty" qty})
       (po-entry "Purchase order has been archived sucessfully!"))))
