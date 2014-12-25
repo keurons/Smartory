@@ -22,7 +22,7 @@
    (empty? date)
      (po-entry "Date is an important field. Please enter the purchase order date.")
    (empty? desc)
-     (po-entry "Please enter information about this purcahse order in the description field.")
+     (po-entry "Please enter information about this purchase order in the description field.")
    (empty? (str/trim qty))
      (po-entry "Please enter the quantity")
   :else
