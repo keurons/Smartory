@@ -11,9 +11,9 @@
             [inventory.models.db :as db]))
 
 (defn init []
-  (println "Inventory service is starting")
-  (if-not (.exists (java.io.File. "./invdb.sq3"))
-    (db/create-po-table)))
+  (println "Inventory service is starting"))
+  ;(if-not (.exists (java.io.File. "./invdb.sq3"))
+  ;  (db/create-po-table)))
 
 (defn destroy []
   (println "Inventory service is shutting down"))

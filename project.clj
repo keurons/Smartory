@@ -7,8 +7,7 @@
                  [ring-server "0.3.1"]
                  [ring/ring-defaults "0.1.2"]
                  ;[org.clojure/java.jdbc "0.3.6"] ;korma should pull this automatically
-                 [org.xerial/sqlite-jdbc "3.8.7"]
-                 [korma "0.4.0"]
+                 [com.taoensso/carmine "2.9.0"]
                  [selmer "0.7.3"]]
   :plugins [[lein-ring "0.8.12"]]
   :ring {:handler inventory.handler/app

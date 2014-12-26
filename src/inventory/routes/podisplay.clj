@@ -6,11 +6,11 @@
             [inventory.models.db :refer :all]))
 
 (defn po-display []
-  (if (> (po-count) 0)
-    (render-file "inventory/views/templates/podisplay.html"
+    (if (> (po-count) 0)
+      (render-file "inventory/views/templates/podisplay.html"
                {:porecords (get-all-pos)})
-    (render-file "inventory/views/templates/podisplay.html"
-               {:usermsgs "No purchase order records present in the database."})))
+      (render-file "inventory/views/templates/podisplay.html"
+               {:usermsgs "No purchase orders present in the database"})))
 
 (defroutes podisplay-routes
   (GET "/podisplay" [_] (po-display)))

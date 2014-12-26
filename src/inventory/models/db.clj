@@ -1,56 +1,58 @@
 (ns inventory.models.db
-  (:require [korma.db :refer :all])
-  (:require [korma.core :refer :all])
-  (:require [clojure.string :as str])
-  (:require [clojure.java.jdbc :as sql])
-  (:import java.sql.DriverManager))
+  (:require  [taoensso.carmine :as car :refer [wcar]]
+             [clojure.string :as str]))
+
+(def server1-conn {:pool {}
+                   :spec {:host "localhost"
+                          :port 6379}})
+
+(defmacro wcar* [& body]
+  `(car/wcar server1-conn ~@body))
 
 
-(def dbspec {:classname   "org.sqlite.JDBC",
-             :subprotocol "sqlite",
-             :subname     "invdb.sq3"})
 
-(defn create-po-table []
-  (sql/db-do-commands
-    dbspec
-    (sql/create-table-ddl
-     :purchaseorder
-     [:po "varchar(32)" :primary :key]
-     [:date :date]
-     [:item :text]
-     [:qty  :int]
-     [:desc :text]
-     :entities str/upper-case)))
+(defn save-hash [hash-name key-data]
+  " Create and commit a hash to a redis database from a map, given a hash name."
+  ;; @TODO: Handle empty map
+    (doall (map #(wcar* (car/hset hash-name % (key-data %))) (keys key-data))))
 
-(defdb korma-db dbspec)
 
-(defentity purchaseorder)
 
-(defn save-msg-db [po date desc item qty]
-  (insert purchaseorder
-            (values [{:po po :date date :desc desc :item item :qty qty}])))
+(defn save-po [key-name key-data]
+  " Saves the purchase order details in the redis db as a hash. The purchase order
+    name is maintained in a set separately."
+  (let [hash-name (first (mapfield-concat key-name ":"))]
+    (save-hash hash-name key-data)
+    (wcar* (car/sadd "po:list" hash-name))))
 
-(defn get-all-pos []
-  (select purchaseorder
-          (fields :po :date :item :qty :desc)))
-;          (where (or (= :qty 21)
-;                     (>= :qty 50)))))
+
+
+(defn mapfield-concat [jmap separator]
+  " Returns the concatenated key value pairs as vector of strings. Works only for
+    map datatypes."
+  ;; @TODO: Incorporate default separator
+  (if (map? jmap)
+    (doall (map #(str (first %) separator (second %)) jmap))
+    nil))
+
+
 
 (defn po-count []
-   (first
-    (map :cnt
-      (select purchaseorder
-        (aggregate (count :PO) :cnt)))))
-
-;; Code for deleting orders
-;(delete purchaseorder
-;        (where {:po ""}))
+  " Returns the count of the number of purchase orders existing in the system."
+  (car/wcar server1-conn (car/scard "po:list")))
 
 
-(defn drop-tables []
-  (sql/db-do-commands
-   dbspec
-   (sql/drop-table-ddl
-    :purchaseorder)))
 
+(defn get-all-pos []
+  " Obtians all the purchase orders from the list and converts them suitably into
+    a map with hash fields as keywords (in CAPS). Specifically done for the
+    templating engine.
+    [\"po\" \"PO01\" \"qty\" 25] --> [{:PO \"PO01\" :QTY 25} {...}]"
+  ;; @TODO: Refactor and make it more abstract
+  (vec
+   (doall
+    (map #(into {}
+                (for [[k v] (apply hash-map (wcar* (car/hgetall %)))]
+                  [(keyword (str/upper-case k)) v]))
+         (wcar* (car/smembers "po:list"))))))
 
