@@ -8,15 +8,14 @@
 
 
 (defn po-entry [& [msgs]]
+;; Renders the purchase order entry with the template.
   (render-file "inventory/views/templates/poentry.html"
             {:usrmsgs msgs}))
 
-;(defn po-entry [& [msgs]]
-;  (layout/render "poentry.html"
-;                 {:usrmsgs msgs}))
 
 (defn save-message [po date desc itemtype qty]
- (cond
+;; Validates the inputs and commits to db as a hash.
+  (cond
    (empty? (str/trim po))
      (po-entry "Please enter the PO number")
    (empty? date)
@@ -28,9 +27,11 @@
   :else
    (do
       (save-po
-         {"po" po}
-         {"date" date "desc" desc "itemtype" itemtype "qty" qty})
-      (po-entry "Purchase order has been archived sucessfully!"))))
+         {"po" po} ;; name of hash
+         {"po" po "date" date "desc" desc "itemtype" itemtype "qty" qty}) ;; correspond to hash fields and values
+;; @TODO check for db success
+     (po-entry "Purchase order has been archived sucessfully!"))))
+
 
 (defroutes poentry-routes
   (GET "/poentry" [_] (po-entry))

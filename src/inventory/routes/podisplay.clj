@@ -6,8 +6,11 @@
             [inventory.models.db :refer :all]))
 
 (defn po-display []
-    (render-file "inventory/views/templates/podisplay.html"
-               {:usermsgs "Working with new db"}))
+    (if (> (po-count) 0)
+      (render-file "inventory/views/templates/podisplay.html"
+               {:porecords (get-all-pos)})
+      (render-file "inventory/views/templates/podisplay.html"
+               {:usermsgs "No purchase orders present in the database"})))
 
 
 (defroutes podisplay-routes
