@@ -42,10 +42,11 @@
   (car/wcar server1-conn (car/scard "po:list")))
 
 
+
 (defn get-all-pos []
   " Obtians all the purchase orders from the list and converts them suitably into
-    a map with hash fields as all caps keywords. Specifically done for the
-    the templating engine.
+    a map with hash fields as keywords (in CAPS). Specifically done for the
+    templating engine.
     [\"po\" \"PO01\" \"qty\" 25] --> [{:PO \"PO01\" :QTY 25} {...}]"
   ;; @TODO: Refactor and make it more abstract
   (vec
