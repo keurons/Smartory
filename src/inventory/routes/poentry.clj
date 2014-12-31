@@ -8,13 +8,13 @@
 
 
 (defn po-entry [& [msgs]]
-;; Renders the purchase order entry with the template.
+" Renders the purchase order entry with the template."
   (render-file "inventory/views/templates/poentry.html"
             {:usrmsgs msgs}))
 
 
 (defn save-message [po date desc itemtype qty]
-;; Validates the inputs and commits to db as a hash.
+" Validates the inputs and commits to db as a hash."
   (cond
    (empty? (str/trim po))
      (po-entry "Please enter the PO number")

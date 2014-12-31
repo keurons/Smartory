@@ -18,6 +18,16 @@
 
 
 
+(defn mapfield-concat [jmap separator]
+  " Returns the concatenated key value pairs as vector of strings. Works only for
+    map datatypes."
+  ;; @TODO: Incorporate default separator
+  ;; @TODO: Order is not preserved
+  (if (map? jmap)
+    (vec (doall (map #(str (first %) separator (second %)) jmap)))))
+
+
+
 (defn save-po [key-name key-data]
   " Saves the purchase order details in the redis db as a hash. The purchase order
     name is maintained in a set separately."
@@ -27,32 +37,36 @@
 
 
 
-(defn mapfield-concat [jmap separator]
-  " Returns the concatenated key value pairs as vector of strings. Works only for
-    map datatypes."
-  ;; @TODO: Incorporate default separator
-  (if (map? jmap)
-    (doall (map #(str (first %) separator (second %)) jmap))
-    nil))
-
-
-
 (defn po-count []
   " Returns the count of the number of purchase orders existing in the system."
   (car/wcar server1-conn (car/scard "po:list")))
 
 
 
+(defn get-po-list []
+  " Obtains a listing of all purchase orders."
+  (wcar* (car/smembers "po:list")))
+
+
+
+(defn get-po-details [po]
+  " Obtains the details of a given purchase order"
+  (wcar* (car/hgetall po)))
+
+
+
 (defn get-all-pos []
-  " Obtians all the purchase orders from the list and converts them suitably into
+  " Obtains all the purchase orders from the list and converts them suitably into
     a map with hash fields as keywords (in CAPS). Specifically done for the
     templating engine.
-    [\"po\" \"PO01\" \"qty\" 25] --> [{:PO \"PO01\" :QTY 25} {...}]"
+    [\"po\" \"PO01\" \"qty\" 25] [...] --> [{:PO \"PO01\" :QTY 25} {...}]"
   ;; @TODO: Refactor and make it more abstract
   (vec
    (doall
     (map #(into {}
-                (for [[k v] (apply hash-map (wcar* (car/hgetall %)))]
+                (for [[k v] (apply hash-map (get-po-details %))]
                   [(keyword (str/upper-case k)) v]))
-         (wcar* (car/smembers "po:list"))))))
+          (get-po-list)))))
+
+
 
