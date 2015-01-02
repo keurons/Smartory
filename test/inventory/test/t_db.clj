@@ -3,7 +3,7 @@
         inventory.models.db))
 
 
-(facts "About combining maps' keys & values into strings"
+(facts "About combining maps' keys & values into strings "
 
        (fact "returns vector of strings combining keys and their respective values
                in a map"
@@ -24,7 +24,7 @@
               (empty? (mapfield-concat {} ":")) => true))
 
 
-(facts "About fetching all purchase orders"
+(facts "About fetching all purchase orders "
 
        (fact "returns vector of maps with each map representing a purchase order"
              (get-all-pos) => [{:PO "PO22" :QTY "25"}{:PO "PO23" :DESC "new macbooks" :DATE "31.12.2014"}]
