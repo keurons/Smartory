@@ -7,7 +7,8 @@
                  [ring-server "0.3.1"]
                  [ring/ring-defaults "0.1.3"]
                  [com.taoensso/carmine "2.9.0" :exclusions [org.clojure/tools.reader]]
-                 [selmer "0.7.3"]]
+                 [selmer "0.7.3"]
+                 [cheshire "5.4.0"]]
   :plugins [[lein-ring "0.8.12" :exclusions [org.clojure/clojure]]]
   ;;:test-paths ["test/"]
   :ring {:handler inventory.handler/app

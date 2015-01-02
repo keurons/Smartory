@@ -9,7 +9,7 @@
                in a map"
               (mapfield-concat {"name" "kou"}, ":") => ["name:kou"]) ;; one k-v pair
 
-       (fact "order of strings in vectors is preserved as per that in the input map"
+       (fact "order of strings in vectors is preserved as per the input map"
               (mapfield-concat {"name" "kou" "age" 41 "loc" "baner"}, ":") => ["name:kou" "age:41" "loc:baner"]) ;; multiple pairs
 
        (fact "works with different separators"
