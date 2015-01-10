@@ -5,10 +5,6 @@
         <title>Purchase order listing</title>
     </head>
     <body>
-<!--        <p>
-            "I intend to create this as a reference example for teaching web development with clojure
-            involving redis, d3 and also if possible clojure script."
-        </p>-->
         <ul>
 
         </ul>
@@ -18,25 +14,14 @@
             d3.json("/data/data.json", draw);
 
             function draw (data){
-                console.log("here is where the code for d3 will reside");
-/*                d3.select("body")
-                        .append("ul")
+                d3.select("body")
                         .selectAll("li")
                         .data(data)
                         .enter()
                         .append("li")
                         .text(function (d){
                             return d.name + ":" + d.status;
-                        });*/
-                  d3.select("body")
-                          .selectAll("ul")
-                          .data({name: "kou", date: "2.1.2015"})
-                          .enter()
-                          .append("li")
-                          .text(function (d){
-                                    return "The name is " + 1 ;
-                          });
-                console.log("function ends here");
+                        });
             }
         </script>
     </body>
