@@ -1,6 +1,7 @@
 (ns inventory.models.db
   (:require  [taoensso.carmine :as car :refer [wcar]]
-             [clojure.string :as str]))
+             [clojure.string :as str]
+             [cheshire.core :refer :all]))
 
 (def server1-conn {:pool {}
                    :spec {:host "localhost"
@@ -55,7 +56,7 @@
 
 
 
-(defn get-all-pos []
+(defn get-pos []
   " Obtains all the purchase orders from the list and converts them suitably into
     a map with hash fields as keywords (in CAPS). Specifically done for the
     templating engine.
@@ -69,4 +70,10 @@
           (get-po-list)))))
 
 
-
+(defn get-pos-json []
+  " Obtains all the purchase orders from the list and converts them into
+    a json stream."
+  (generate-string
+   (vec
+    (doall
+     (map #(apply hash-map (get-po-details %)) (get-po-list))))))
